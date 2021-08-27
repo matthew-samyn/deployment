@@ -2,7 +2,7 @@ import json
 import pandas as pd
 import sqlite3
 
-data = open("database.json")
+data = open("data_files/database.json")
 
 steam_games = json.load(data)
 
@@ -25,10 +25,6 @@ print(df.shape)
 print(df.isna().any())
 df = df.drop_duplicates("id")
 print(df.shape)
+df['publishers'] = df.publishers.apply(lambda x: x[0])
 
-df.to_csv("steam_games_v1")
-
-
-
-
-
+df.to_csv("data_files/steam_games_v1", index=False)
