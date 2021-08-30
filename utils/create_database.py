@@ -1,4 +1,3 @@
-import json
 import pandas as pd
 import sqlite3
 
@@ -18,12 +17,6 @@ curs.execute(f'CREATE TABLE GAMES ({column_names})')
 # df to sql
 df.to_sql('GAMES', conn, if_exists='replace', index=False)
 
-# curs.execute('''
-# SELECT * FROM GAMES ''')  # where name like '%aba%'
-#           # ''')
-#
-# # for row in c.fetchall():
-# #     print(row)
-# print(curs.fetchall())
+
 
 curs.close()
