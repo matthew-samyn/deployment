@@ -29,10 +29,7 @@ df_genres.to_sql('GENRES', conn, if_exists='replace', index=False)
 # create table games_genres
 list_genres_games_columns = df_games_genres_id.columns
 genres_games_column_names = ','.join(list_genres_games_columns)
-print(genres_games_column_names)
 command = f'CREATE TABLE GAMES_GENRES ({genres_games_column_names}, PRIMARY KEY({genres_games_column_names}), FOREIGN KEY (game_id) REFERENCES GAMES (id), FOREIGN KEY (genre_id) REFERENCES GENRES (id))'
-command_no_foreign = f'CREATE TABLE GAMES_GENRES ({genres_games_column_names}), PRIMARY KEY({genres_games_column_names})'
-print(command)
 curs.execute(command)
 
 # df to sql
