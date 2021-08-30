@@ -6,7 +6,7 @@ The file contained webshop data on 3000+ games.
 
 # Goal
 1. Extract useful information from .JSON
-2. Build a relational database
+2. Build a relational database using SQL
 3. Make visualizations on the data
 4. Build a website with nice visuals.
 
