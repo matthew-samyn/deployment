@@ -66,12 +66,7 @@ for game_id in steam_games:
             genre_ids.append(genres_dct["id"])
     except:
         continue
-#df_games_genre = pd.DataFrame({"game_id": game_ids, "genre_id": genre_ids})
-
-# Writing dataframes to csv
-#df_games_genre.to_csv("data_files/gamesid_genreid.csv", index=False)
-#df_genre.to_csv("data_files/different_genres.csv", index=False)
-#df_easy.to_csv("data_files/steam_games_v2.csv", index=False)
+df_games_genre = pd.DataFrame({"game_id": game_ids, "genre_id": genre_ids})
 
 
 # Price feature
@@ -103,5 +98,9 @@ df_price_date['date'] = pd.to_datetime(df_price_date['date'])
 
 df_easy_v3 = pd.merge(df_easy, df_price_date, on='id')
 print(df_easy_v3)
+
+# Writing dataframes to csv
+df_games_genre.to_csv("data_files/gamesid_genreid.csv", index=False)
+df_genre.to_csv("data_files/different_genres.csv", index=False)
 df_easy_v3.to_csv("data_files/steam_games_v3.csv", index=False)
 
