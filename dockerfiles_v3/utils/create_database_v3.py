@@ -15,20 +15,20 @@ curs = conn.cursor()
 list_games_columns = df_games.columns
 games_column_names = ','.join(list_games_columns)
 print(games_column_names)
-# curs.execute('CREATE TABLE GAMES ('
-#              'id INTEGER PRIMARY KEY, '
-#              'name           TEXT,'
-#              'header_image   TEXT,'
-#              'short_description TEXT,'
-#              'price,'
-#              'date           TEXT,'
-#              'required_age   INTEGER,'
-#              'is_free        INTEGER,'
-#              'developers     TEXT,'
-#              'review_score   INTEGER,'
-#              'total_positive INTEGER,'
-#              'total_negative INTEGER,'
-#              'total_reviews  INTEGER);')
+curs.execute('CREATE TABLE GAMES ('
+             'id INTEGER PRIMARY KEY, '
+             'name           TEXT,'
+             'header_image   TEXT,'
+             'short_description TEXT,'
+             'price          REAL,'
+             'date           TIMESTAMP,'
+             'required_age   INTEGER,'
+             'is_free        INTEGER,'
+             'developers     TEXT,'
+             'review_score   INTEGER,'
+             'total_positive INTEGER,'
+             'total_negative INTEGER,'
+             'total_reviews  INTEGER);')
 
 # df to sql
 df_games.to_sql('GAMES', conn, if_exists='append', index=False)
