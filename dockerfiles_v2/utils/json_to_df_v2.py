@@ -7,7 +7,7 @@ pd.set_option("display.max_columns", None)
 pd.set_option("display.max_rows", 50)
 
 # Opening JSON
-with open("../../data-json/database.json", "r") as json_file:
+with open("../../data_json/database.json", "r") as json_file:
     steam_games = json.load(json_file)
 
 print(f"We have this many id's: {len(steam_games.keys())}")

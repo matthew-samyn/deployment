@@ -6,6 +6,9 @@ df_games = pd.read_csv('../data_files/steam_games_v3.csv')
 df_genres = pd.read_csv('../data_files/different_genres.csv')
 df_games_genres_id = pd.read_csv('../data_files/gamesid_genreid.csv')
 df_games['date'] = pd.to_datetime(df_games['date'])
+df_platforms_table = pd.read_csv('../data_files/platforms_table.csv')
+df_game_platforms = pd.read_csv('../data_files/game_platforms.csv')
+
 
 # create and connect to database
 conn = sqlite3.connect('../database/steam_data_v3.db')
@@ -14,7 +17,7 @@ curs = conn.cursor()
 # create table games
 list_games_columns = df_games.columns
 games_column_names = ','.join(list_games_columns)
-print(games_column_names)
+# print(games_column_names)
 curs.execute('CREATE TABLE GAMES ('
              'id INTEGER PRIMARY KEY, '
              'name           TEXT,'
@@ -36,7 +39,7 @@ df_games.to_sql('GAMES', conn, if_exists='append', index=False)
 # create table genre
 list_genres_columns = df_genres.columns
 genres_column_names = ','.join(list_genres_columns)
-print(genres_column_names)
+# print(genres_column_names)
 curs.execute('CREATE TABLE GENRES ('
              'id    INTEGER PRIMARY KEY,'
              'genre TEXT);')
@@ -55,13 +58,34 @@ command = 'CREATE TABLE GAMES_GENRES( ' \
           f'FOREIGN KEY (genre_id) REFERENCES GENRES (id)' \
           f');'
 
-
-
 curs.execute(command)
-
 # df to sql
 df_games_genres_id.to_sql('GAMES_GENRES', conn, if_exists='append', index=False)
 
+
+# create table platforms
+# list_platforms_columns = df_platforms_table.columns
+# platform_column_names = ','.join(list_platforms_columns)
+# print(genres_column_names)
+curs.execute('CREATE TABLE PLATFORMS ('
+             'id    INTEGER PRIMARY KEY,'
+             'name  TEXT);')
+# df to sql
+df_platforms_table.to_sql('PLATFORMS', conn, if_exists='append', index=False)
+
+
+# create table games_platforms
+# list_genres_games_columns = df_games_genres_id.columns
+# genres_games_column_names = ','.join(list_genres_games_columns)
+command = 'CREATE TABLE GAMES_PLATFORMS( ' \
+          'game_id INTEGER,' \
+          'platform_id INTEGER,' \
+          'PRIMARY KEY(game_id, platform_id),' \
+          'FOREIGN KEY (game_id) REFERENCES GAMES (id),' \
+          'FOREIGN KEY (platform_id) REFERENCES PLATFORMS (id)' \
+          ');'
+curs.execute(command)
+df_game_platforms.to_sql('GAMES_PLATFORMS', conn, if_exists='append', index=False)
 
 # try database query
 # curs.execute('''

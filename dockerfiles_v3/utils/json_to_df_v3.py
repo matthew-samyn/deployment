@@ -124,8 +124,9 @@ print(df_easy_v3)
 df_games_genre.to_csv("../data_files/gamesid_genreid.csv", index=False)
 df_genre.to_csv("../data_files/different_genres.csv", index=False)
 df_easy_v3.to_csv("../data_files/steam_games_v3.csv", index=False)
-platform_dct = {'game-id': game_id_list,
-                'platforms': platform_type,
+
+platform_dct = {'game_id': game_id_list,
+                'platform_id': platform_type,
                 'booleans': platform_boolean
 }
 
@@ -137,17 +138,17 @@ game_platforms = game_platforms.drop(columns = ['booleans'])
 
 
 platforms_table = pd.DataFrame(
-    {'platform_id': [1, 2, 3],
-     'platform_name': ['windows', 'mac', 'linux']}
+    {'id': [1, 2, 3],
+     'name': ['windows', 'mac', 'linux']}
 )
 
-game_platforms['platforms'] = game_platforms['platforms'].replace({
+game_platforms['platform_id'] = game_platforms['platform_id'].replace({
     'windows': 1,
     'mac':2,
     'linux':3
 })
 
-print(game_platforms['platforms'].value_counts())
+# print(game_platforms['platform_id'].value_counts())
 
-game_platforms.to_csv('../data_files/game_platforms.csv')
-platforms_table.to_csv('../data_files/platforms_table.csv')
+game_platforms.to_csv('../data_files/game_platforms.csv', index=False)
+platforms_table.to_csv('../data_files/platforms_table.csv', index=False)

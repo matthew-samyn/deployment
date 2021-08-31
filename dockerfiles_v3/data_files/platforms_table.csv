@@ -1,4 +1,4 @@
-,platform_id,platform_name
-0,1,windows
-1,2,mac
-2,3,linux
+id,name
+1,windows
+2,mac
+3,linux
