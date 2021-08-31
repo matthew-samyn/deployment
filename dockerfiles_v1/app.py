@@ -2,7 +2,7 @@ import sqlite3
 import streamlit as st
 import plotly.express as px
 
-conn = sqlite3.connect('steam_data_v2.db')
+conn = sqlite3.connect('database/steam_data_v2.db')
 curs = conn.cursor()
 
 curs.execute('''

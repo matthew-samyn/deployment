@@ -5,7 +5,7 @@ import sqlite3
 df = pd.read_csv('../data_files/steam_games_v1')
 
 # create and connect to database
-conn = sqlite3.connect('../dockerfiles/steam_data_v2.db')
+conn = sqlite3.connect('../database/steam_data_v2.db')
 curs = conn.cursor()
 
 # create sql command

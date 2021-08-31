@@ -7,7 +7,7 @@ pd.set_option("display.max_columns", None)
 pd.set_option("display.max_rows", 50)
 
 # Opening JSON
-with open("data_files/database.json", "r") as json_file:
+with open("../../data_json/database.json", "r") as json_file:
     steam_games = json.load(json_file)
 
 print(f"We have this many id's: {len(steam_games.keys())}")
@@ -28,7 +28,7 @@ def get_features(key, games):
 
 
 easy_lst = ["name", "required_age", "is_free", "developers", "review_score",
-            "total_positive", "total_negative", "total_reviews"]
+            "total_positive", "total_negative", "total_reviews", "header_image", "short_description"]
 
 features_dct = {"id": list(steam_games.keys())}
 for column in easy_lst:
@@ -54,7 +54,6 @@ df_genre["id"] = list(genre_dct.keys())
 df_genre["genre"] = list(genre_dct.values())
 df_genre.sort_values("id", inplace=True)
 df_genre.reset_index(inplace=True, drop=True)
-
 
 # Getting all the genre_id for each game_id in dataframe
 game_ids = []
@@ -83,9 +82,10 @@ final_formatteds = []
 for game_id in steam_games:
     try:
         if steam_games[game_id]["price_overview"]["discount_percent"] == 0:
-            final_formatteds.append(steam_games[game_id]["price_overview"]["final_formatted"][:-1].replace(',','.').replace('--','00'))
+            price = steam_games[game_id]["price_overview"]["final_formatted"][:-1].replace(',','.').replace('--','00')
         elif steam_games[game_id]["price_overview"]["discount_percent"] != 0:
-            final_formatteds.append(steam_games[game_id]["price_overview"]["initial_formatted"][:-1].replace(',', '.').replace('--', '00'))
+            price = steam_games[game_id]["price_overview"]["initial_formatted"][:-1].replace(',', '.').replace('--', '00')
+        final_formatteds.append(float(price))
         game_ids.append(game_id)
     except:
         game_ids.append(game_id)
@@ -95,6 +95,11 @@ for game_id in steam_games:
 release_date = []
 for game_id in steam_games:
     release_date.append(steam_games[game_id]["release_date"]["date"])
+
+df_price_date = pd.DataFrame(list(zip(game_ids, final_formatteds, release_date)), columns=['id', 'price', 'date'])
+df_price_date['date'] = df_price_date['date'].str.replace('Mai','May')
+df_price_date['date'] = df_price_date['date'].str.replace('lutego','January')
+df_price_date['date'] = pd.to_datetime(df_price_date['date'])
 #print(release_date)
 
 # get out the type of platform
@@ -113,6 +118,13 @@ for game_id in steam_games:
         platform_boolean.append(list(steam_games[game_id]['platforms'].values())[counter])
         counter += 1
 
+df_easy_v3 = pd.merge(df_easy, df_price_date, on='id')
+print(df_easy_v3)
+
+# Writing dataframes to csv
+df_games_genre.to_csv("data_files/gamesid_genreid.csv", index=False)
+df_genre.to_csv("data_files/different_genres.csv", index=False)
+df_easy_v3.to_csv("data_files/steam_games_v3.csv", index=False)
 platform_dct = {'game-id': game_id_list,
                 'platforms': platform_type,
                 'booleans': platform_boolean

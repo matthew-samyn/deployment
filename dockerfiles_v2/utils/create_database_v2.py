@@ -8,7 +8,7 @@ df_games_genres_id = pd.read_csv('../data_files/gamesid_genreid.csv')
 
 
 # create and connect to database
-conn = sqlite3.connect('../dockerfiles_v2/steam_data_v2_1.db')
+conn = sqlite3.connect('../database/steam_data_v2_1.db')
 curs = conn.cursor()
 
 # create table games
@@ -17,14 +17,14 @@ games_column_names = ','.join(list_games_columns)
 print(games_column_names)
 curs.execute(f'CREATE TABLE GAMES ({games_column_names}, PRIMARY KEY (id))')
 # df to sql
-df_games.to_sql('GAMES', conn, if_exists='replace', index=False)
+df_games.to_sql('GAMES', conn, if_exists='append', index=False)
 
 # create table genre
 list_genres_columns = df_genres.columns
 genres_column_names = ','.join(list_genres_columns)
 curs.execute(f'CREATE TABLE GENRES ({genres_column_names}, PRIMARY KEY (id))')
 # df to sql
-df_genres.to_sql('GENRES', conn, if_exists='replace', index=False)
+df_genres.to_sql('GENRES', conn, if_exists='append', index=False)
 
 # create table games_genres
 list_genres_games_columns = df_games_genres_id.columns
@@ -33,7 +33,7 @@ command = f'CREATE TABLE GAMES_GENRES ({genres_games_column_names}, PRIMARY KEY(
 curs.execute(command)
 
 # df to sql
-df_games_genres_id.to_sql('GAMES_GENRES', conn, if_exists='replace', index=False)
+df_games_genres_id.to_sql('GAMES_GENRES', conn, if_exists='append', index=False)
 
 
 # try database query

@@ -7,7 +7,7 @@ pd.set_option("display.max_columns", None)
 pd.set_option("display.max_rows", 50)
 
 # Opening JSON
-with open("data_files/database.json", "r") as json_file:
+with open("../../data-json/database.json", "r") as json_file:
     steam_games = json.load(json_file)
 
 print(f"We have this many id's: {len(steam_games.keys())}")
@@ -69,6 +69,6 @@ for game_id in steam_games:
 df_games_genre = pd.DataFrame({"game_id": game_ids, "genre_id": genre_ids})
 
 # Writing dataframes to csv
-df_games_genre.to_csv("data_files/gamesid_genreid.csv", index=False)
-df_genre.to_csv("data_files/different_genres.csv", index=False)
-df_easy.to_csv("data_files/steam_games_v2.csv", index=False)
+df_games_genre.to_csv("../data_files/gamesid_genreid.csv", index=False)
+df_genre.to_csv("../data_files/different_genres.csv", index=False)
+df_easy.to_csv("../data_files/steam_games_v2.csv", index=False)
