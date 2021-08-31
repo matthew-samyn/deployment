@@ -23,7 +23,7 @@ def get_features(key, games):
             column.append(value)
         except KeyError:
             column.append(None)
-    print(f"Column '{key}': {len(column)}")
+    # print(f"Column '{key}': {len(column)}")
     return column
 
 
@@ -73,8 +73,6 @@ df_games_genre = pd.DataFrame({"game_id": game_ids, "genre_id": genre_ids})
 #df_genre.to_csv("data_files/different_genres.csv", index=False)
 #df_easy.to_csv("data_files/steam_games_v2.csv", index=False)
 
-
-# Price feature
 # Price feature
 def dealing_with_currencies(unformatted_price: str) -> float:
     price = 0
@@ -131,8 +129,6 @@ for game_id in steam_games:
         game_ids.append(game_id)
         final_formatteds.append(0)
 
-print(game_ids)
-
 # Release date feature
 release_date = []
 for game_id in steam_games:
@@ -160,10 +156,16 @@ for game_id in steam_games:
         counter += 1
 
 df_easy_v3 = pd.merge(df_easy, df_price_date, on='id')
-print(df_easy_v3)
+# print(df_easy_v3)
 
-platform_dct = {'game_id': game_id_list,
-                'platform_id': platform_type,
+# Writing dataframes to csv
+# df_games_genre.to_csv("../data_files/gamesid_genreid.csv", index=False)
+# df_genre.to_csv("../data_files/different_genres.csv", index=False)
+# df_easy_v3.to_csv("../data_files/steam_games_v3.csv", index=False)
+
+# Getting different platforms out of JSON into seperate Dataframe
+platform_dct = {'game-id': game_id_list,
+                'platforms': platform_type,
                 'booleans': platform_boolean
 }
 
@@ -175,21 +177,15 @@ game_platforms = game_platforms.drop(columns = ['booleans'])
 
 
 platforms_table = pd.DataFrame(
-    {'id': [1, 2, 3],
-     'name': ['windows', 'mac', 'linux']}
+    {'platform_id': [1, 2, 3],
+     'platform_name': ['windows', 'mac', 'linux']}
 )
 
-game_platforms['platform_id'] = game_platforms['platform_id'].replace({
+game_platforms['platforms'] = game_platforms['platforms'].replace({
     'windows': 1,
     'mac':2,
     'linux':3
 })
-
-# print(game_platforms['platform_id'].value_counts())
-
-# Writing dataframes to csv
-# df_games_genre.to_csv("../data_files/gamesid_genreid.csv", index=False)
-# df_genre.to_csv("../data_files/different_genres.csv", index=False)
-df_easy_v3.to_csv("../data_files/steam_games_v3.csv", index=False)
-# game_platforms.to_csv('../data_files/game_platforms.csv', index=False)
-# platforms_table.to_csv('../data_files/platforms_table.csv', index=False)
+#
+# game_platforms.to_csv('../data_files/game_platforms.csv')
+# platforms_table.to_csv('../data_files/platforms_table.csv')
