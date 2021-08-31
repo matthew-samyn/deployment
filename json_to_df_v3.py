@@ -55,6 +55,7 @@ df_genre["genre"] = list(genre_dct.values())
 df_genre.sort_values("id", inplace=True)
 df_genre.reset_index(inplace=True, drop=True)
 
+
 # Getting all the genre_id for each game_id in dataframe
 game_ids = []
 genre_ids = []
@@ -94,6 +95,47 @@ for game_id in steam_games:
 release_date = []
 for game_id in steam_games:
     release_date.append(steam_games[game_id]["release_date"]["date"])
-print(release_date)
+#print(release_date)
 
+# get out the type of platform
 
+platform_type = []
+game_id_list = []
+platform_boolean = []
+
+for game_id in steam_games:
+    counter = 0
+    for platform_key in steam_games[game_id]['platforms']:
+        platform_type.append(platform_key)
+        game_id_list.append(game_id)
+        # print(steam_games[game_id]['platforms'].values())
+        # print(type(list(steam_games[game_id]['platforms'].values())))
+        platform_boolean.append(list(steam_games[game_id]['platforms'].values())[counter])
+        counter += 1
+
+platform_dct = {'game-id': game_id_list,
+                'platforms': platform_type,
+                'booleans': platform_boolean
+}
+
+game_platforms = pd.DataFrame(platform_dct)
+game_platforms = game_platforms[game_platforms.booleans == True]
+game_platforms.reset_index(inplace=True, drop=True)
+game_platforms = game_platforms.drop(columns = ['booleans'])
+
+game_platforms.to_csv('game_platforms')
+
+platforms_table = pd.DataFrame(
+    {'platform_id': [1, 2, 3],
+     'platform_name': ['windows', 'mac', 'linux']}
+)
+
+game_platforms['platforms'] = game_platforms['platforms'].replace({
+    'windows': 1,
+    'mac':2,
+    'linux':3
+})
+
+print(game_platforms['platforms'].value_counts())
+
+game_platforms.to_csv('game_platforms_2')
