@@ -122,7 +122,7 @@ elif box_1 == 'Compare two games':
         review_query.execute(query, params)
 
         fig = px.bar(x=list_name_games, y=[review_query.fetchone()[0], review_query.fetchone()[0]])
-        fig.update_layout(title_text=f'Price of {box_1_1} vs {box_1_2}', title_x=0.5)
+        fig.update_layout(title_text=f'Number of positive reviews of {box_1_1} vs {box_1_2}', title_x=0.5)
         fig.update_xaxes(title_text='Games')
         fig.update_yaxes(title_text='Reviews')
         st.plotly_chart(fig, use_container_width=True)
