@@ -66,7 +66,7 @@ for game_id in steam_games:
             genre_ids.append(genres_dct["id"])
     except:
         continue
-#df_games_genre = pd.DataFrame({"game_id": game_ids, "genre_id": genre_ids})
+df_games_genre = pd.DataFrame({"game_id": game_ids, "genre_id": genre_ids})
 
 # Writing dataframes to csv
 #df_games_genre.to_csv("data_files/gamesid_genreid.csv", index=False)
@@ -100,7 +100,6 @@ df_price_date = pd.DataFrame(list(zip(game_ids, final_formatteds, release_date))
 df_price_date['date'] = df_price_date['date'].str.replace('Mai','May')
 df_price_date['date'] = df_price_date['date'].str.replace('lutego','January')
 df_price_date['date'] = pd.to_datetime(df_price_date['date'])
-#print(release_date)
 
 # get out the type of platform
 
@@ -122,9 +121,9 @@ df_easy_v3 = pd.merge(df_easy, df_price_date, on='id')
 print(df_easy_v3)
 
 # Writing dataframes to csv
-df_games_genre.to_csv("data_files/gamesid_genreid.csv", index=False)
-df_genre.to_csv("data_files/different_genres.csv", index=False)
-df_easy_v3.to_csv("data_files/steam_games_v3.csv", index=False)
+df_games_genre.to_csv("../data_files/gamesid_genreid.csv", index=False)
+df_genre.to_csv("../data_files/different_genres.csv", index=False)
+df_easy_v3.to_csv("../data_files/steam_games_v3.csv", index=False)
 platform_dct = {'game-id': game_id_list,
                 'platforms': platform_type,
                 'booleans': platform_boolean
@@ -135,7 +134,7 @@ game_platforms = game_platforms[game_platforms.booleans == True]
 game_platforms.reset_index(inplace=True, drop=True)
 game_platforms = game_platforms.drop(columns = ['booleans'])
 
-game_platforms.to_csv('game_platforms')
+
 
 platforms_table = pd.DataFrame(
     {'platform_id': [1, 2, 3],
@@ -150,4 +149,5 @@ game_platforms['platforms'] = game_platforms['platforms'].replace({
 
 print(game_platforms['platforms'].value_counts())
 
-game_platforms.to_csv('game_platforms_2')
+game_platforms.to_csv('../data_files/game_platforms.csv')
+platforms_table.to_csv('../data_files/platforms_table.csv')
