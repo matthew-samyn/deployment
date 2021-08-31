@@ -2,33 +2,33 @@ import pandas as pd
 import sqlite3
 
 
-df_games = pd.read_csv('../data_files/steam_games_v2.csv')
+df_games = pd.read_csv('../data_files/steam_games_v3.csv')
 df_genres = pd.read_csv('../data_files/different_genres.csv')
 df_games_genres_id = pd.read_csv('../data_files/gamesid_genreid.csv')
-
+df_games['date'] = pd.to_datetime(df_games['date'])
 
 # create and connect to database
-conn = sqlite3.connect('../dockerfiles_v3/steam_data_v3.db')
+conn = sqlite3.connect('../database/steam_data_v3.db')
 curs = conn.cursor()
 
 # create table games
 list_games_columns = df_games.columns
 games_column_names = ','.join(list_games_columns)
 print(games_column_names)
-curs.execute('CREATE TABLE GAMES ('
-             'id INTEGER PRIMARY KEY, '
-             'name           TEXT,'
-             'header_image   TEXT,'
-             'short_description TEXT,'
-             'price,'
-             'date           TEXT,'
-             'required_age   INTEGER,'
-             'is_free        INTEGER,'
-             'developers     TEXT,'
-             'review_score   INTEGER,'
-             'total_positive INTEGER,'
-             'total_negative INTEGER,'
-             'total_reviews  INTEGER);')
+# curs.execute('CREATE TABLE GAMES ('
+#              'id INTEGER PRIMARY KEY, '
+#              'name           TEXT,'
+#              'header_image   TEXT,'
+#              'short_description TEXT,'
+#              'price,'
+#              'date           TEXT,'
+#              'required_age   INTEGER,'
+#              'is_free        INTEGER,'
+#              'developers     TEXT,'
+#              'review_score   INTEGER,'
+#              'total_positive INTEGER,'
+#              'total_negative INTEGER,'
+#              'total_reviews  INTEGER);')
 
 # df to sql
 df_games.to_sql('GAMES', conn, if_exists='append', index=False)
