@@ -65,7 +65,7 @@ We pushed our [Docker image](https://hub.docker.com/r/maartenvdbulcke/steam-fina
 ![](images/ERD.png)
 
 # t-SNE plot of our data 
-![](final_version/visuals/tsne_100_score.PNG)
+![](images/tsne_100_score.PNG)
 
 # Contributors
 | Name                   | Github                              |
