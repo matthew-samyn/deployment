@@ -65,7 +65,7 @@ We pushed our [Docker image](https://hub.docker.com/repository/docker/maartenvdb
 ![](images/ERD.png)
 
 # t-SNE plot of our data 
-![](old_versions/dockerfiles_v2/visuals/tsne_100.png)
+![](final_version/visuals/tsne_100_score.PNG)
 
 # Contributors
 | Name                   | Github                              |
