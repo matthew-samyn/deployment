@@ -50,6 +50,14 @@ We pushed our [Docker image](https://hub.docker.com/repository/docker/maartenvdb
 | ** json_to_df.py      | Code used to convert the .json file to a Pandas dataframe. |
 | app.py                | Code used for deployment on a website                      |
 
+# Project evolution
+| Version #     | Website                                               |
+|---------------|-------------------------------------------------------|
+| Version 1     | https://deploy-island.herokuapp.com/                  |
+| Version 2     | https://steam-deployment-project.herokuapp.com        |
+| Version 3     | https://steaming-on.herokuapp.com/                    |
+| Final version | https://steam-deployment-project-final.herokuapp.com/ |
+
 # Sample of our app
 ![](images/steam_app_gif.gif)
 
@@ -58,14 +66,6 @@ We pushed our [Docker image](https://hub.docker.com/repository/docker/maartenvdb
 
 # t-SNE plot of our data 
 ![](old_versions/dockerfiles_v2/visuals/tsne_100.png)
-
-# Project evolution
-| Version #     | Website                                               |
-|---------------|-------------------------------------------------------|
-| Version 1     | https://deploy-island.herokuapp.com/                  |
-| Version 2     | https://steam-deployment-project.herokuapp.com        |
-| Version 3     | https://steaming-on.herokuapp.com/                    |
-| Final version | https://steam-deployment-project-final.herokuapp.com/ |
 
 # Contributors
 | Name                   | Github                              |
