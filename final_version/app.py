@@ -30,7 +30,8 @@ for game_name in list_games_query:
 image = Image.open('steam_logo.png')
 
 st.sidebar.title("Steam Dashboard")
-box_1 = st.sidebar.selectbox('What do you want to analyze?', ('Select', 'Single game', 'Two games', 'Top games', 'Time'))
+box_1 = st.sidebar.selectbox('What do you want to analyze?',
+                             ('Select', 'Single game', 'Two games', 'Top games', 'Time', 'OS'))
 
 if box_1 == 'Select':
     st.image(image)
@@ -50,8 +51,6 @@ elif box_1 == 'Single game':
     else:
         box_1_1 = st.sidebar.selectbox('Select game', list_games)
         new_list = list(list_games)
-
-    #box_1_2 = st.sidebar.selectbox('Select desired feature', (['Select', 'Reviews']))
 
     # Description
     descr = conn.cursor()
@@ -190,7 +189,8 @@ elif box_1 == 'Two games':
 elif box_1 == 'Top games':
     box_1_1 = st.sidebar.selectbox('Select features',
                                    (['Price', 'Developers', 'Positive reviews', 'Negative reviews',
-                                     'Positive reviews ratio', 'Negative reviews ratio', 'Copies sold', 'Sales revenue']))
+                                     'Positive reviews ratio', 'Negative reviews ratio',
+                                     'Copies sold', 'Sales revenue']))
     box_color = st.sidebar.selectbox('Select color',
                                    (['Lightskyblue','Midnightblue', 'Red', 'Aquamarine', 'Magenta']))
     color = box_color.lower()
@@ -359,6 +359,43 @@ elif box_1 == 'Top games':
                     labels={'x': box_1_1, 'y': 'Games'}, color_discrete_sequence=[color], height=600)
 
         st.plotly_chart(fig, use_container_width=True)
+
+elif box_1 == 'OS':
+    st.markdown(f"<h1 style='text-align: center;'>Available OS per game</h1>", unsafe_allow_html=True)
+    st.markdown(f"<h1 style='text-align: center;'></h1>", unsafe_allow_html=True)
+
+    query = conn.cursor()
+    query.execute('''SELECT game_id, count(game_id) FROM games_platforms GROUP BY platform_id ORDER BY count(game_id);''')
+
+    list_nominal = ["Windows", "Mac", "Linux"]
+    list_numerical = []
+
+    for entries in query.fetchall():
+        list_numerical.append(entries[1])
+
+    list_numerical = list_numerical[::-1]
+
+    fig = px.bar(y=list_numerical, x=list_nominal, labels={'x': 'OS', 'y': 'Game count'},
+                 color_discrete_sequence=['Lightskyblue'], height=400)
+
+    st.plotly_chart(fig, use_container_width=True)
+
+    from utils.helper_functions import *
+
+    if st.sidebar.button('Random'):
+        box_1_1 = st.sidebar.selectbox('Select game', [random.choice(list_games)])
+        new_list = list(list_games)
+        display_os(conn, box_1_1)
+        # if user wants to reset
+        if st.sidebar.button('Reset'):
+            box_1_1 = st.sidebar.selectbox('Select game', list_games)
+            new_list = list(list_games)
+            display_os(conn)
+    # if user selects on his own
+    else:
+        box_1_1 = st.sidebar.selectbox('Select game', list_games)
+        new_list = list(list_games)
+        display_os(conn, box_1_1)
 
 elif box_1 == 'Time':
     box_1_1 = st.sidebar.selectbox('Select time',

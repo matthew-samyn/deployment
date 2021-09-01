@@ -3,9 +3,7 @@ import sqlite3
 import pandas as pd
 import streamlit as st
 
-
-
-def display_os(conn):
+def display_os(conn, game_name=None):
     curs = conn.cursor()
     command = '''
         SELECT GAMES.name, PLATFORMS.name
@@ -44,6 +42,13 @@ def display_os(conn):
         'windows': 'yes', 'linux': 'yes' , 'mac': 'yes'
     })
     oses_pivot = oses_pivot[['windows', 'linux', 'mac']]
-    print(oses_pivot)
 
-    st.dataframe(data=oses_pivot, width=None, height=None)
+    if game_name is not None:
+        oses_pivot = oses_pivot.reset_index()
+        oses_pivot = oses_pivot[oses_pivot.game_name == game_name]
+        oses_pivot = oses_pivot.set_index('game_name')
+        st.dataframe(data=oses_pivot, width=None, height=None)
+
+    else:
+        st.dataframe(data=oses_pivot, width=None, height=None)
+
