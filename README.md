@@ -1,4 +1,5 @@
 # Deployment challenge - Steam analytics
+![](images/steam.jpg)
 # Description
 This was a project during our time at BeCode.  
 Our coach provided us a .JSON file, with information scraped from the website of <a href="https://store.steampowered.com/" target="_blank">steam</a>.  
@@ -11,33 +12,51 @@ The file contained webshop data on 3000+ games.
 4. Build a website with nice visuals.
 
 # Installation
-## Python version
+### Python version
 * Python 3.9
 
-## Packages used
-* pandas
-* seaborn
-* plotly
-* matplotlib
-* collections
-* gunicorn
-* streamlit
+### Packages used
+* pandas==1.3.1
+* seaborn==0.11.1
+* plotly==5.2.2
+* matplotlib==3.4.2
+* streamlit==0.87.0
 
-## Webservice
+### Webservice
 * <a href="https://www.heroku.com" target="_blank">Heroku</a>
 
-## Making container images
+### Making container images
 * <a href="https://www.docker.com/" target="_blank">Docker</a>
 
 # Usage
-| File | Description |
-|------|-------------|
+### Main folder
+| Folder            | Description                                                 |
+|-------------------|-------------------------------------------------------------|
+| data_json         | Directory containing the original .json file on steam data. |
+| old_versions      | Directory containing all files for early versions.<br>* version 1<br>* version 2<br>* version 3 |
+| images            | Directory containing images used for readme.md              |
+| final_version | Directory containing all files for final version            |
 
-# Step by step explanation of how we did it
+### final_version
+| File                  | Description                                                |
+|-----------------------|------------------------------------------------------------|
+| data_files            | Directory containing all our .csv files.                   |
+| database              | Database created using info from the .csv files.           |
+| utils                 | Directory containing Python files:                         |
+| ** create_database.py | Code used to create the database                           |
+| ** json_to_df.py      | Code used to convert the .json file to a Pandas dataframe. |
+| app.py                | Code used for deployment on a website                      |
 
-# Visuals
+# ERD of our SQLITE-database 
+![](images/ERD.png)
 
-
+# Project evolution
+| Version #     | Website                                        |
+|---------------|------------------------------------------------|
+| Version 1     | https://deploy-island.herokuapp.com/           |
+| Version 2     | https://steam-deployment-project.herokuapp.com |
+| Version 3     | https://steaming-on.herokuapp.com/             |
+| Final version |                                                |
 
 # Contributors
 | Name                   | Github                             |
