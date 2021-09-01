@@ -52,6 +52,9 @@ We pushed our [Docker image](https://hub.docker.com/repository/docker/maartenvdb
 | ** json_to_df.py      | Code used to convert the .json file to a Pandas dataframe. |
 | app.py                | Code used for deployment on a website                      |
 
+# Sample of our app
+![](images/steam_app_gif.gif)
+
 # ERD of our SQLITE-database 
 ![](images/ERD.png)
 
