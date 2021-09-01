@@ -1,9 +1,10 @@
+import numpy as np
+import pandas as pd
 import sqlite3
 import streamlit as st
 import plotly.express as px
 import random
 from PIL import Image
-import numpy as np
 
 conn = sqlite3.connect('database/steam_data_final.db')
 curs = conn.cursor()
@@ -50,7 +51,7 @@ elif box_1 == 'Single game':
         box_1_1 = st.sidebar.selectbox('Select game', list_games)
         new_list = list(list_games)
 
-    box_1_2 = st.sidebar.selectbox('Select desired feature', (['Select', 'Reviews']))
+    #box_1_2 = st.sidebar.selectbox('Select desired feature', (['Select', 'Reviews']))
 
     # Description
     descr = conn.cursor()
@@ -70,32 +71,27 @@ elif box_1 == 'Single game':
     params = [box_1_1]
     id_query.execute(query, params)
 
-    if box_1_2 == 'Select':
-        link_steam = f"https://store.steampowered.com/app/{id_query.fetchone()[0]}/"
-        col1, col2, col3 = st.columns([1, 6, 1])
-        with col1:
-            st.write("")
-        with col2:
-            st.markdown(f"[![image_game]({img.fetchone()[0]})]({link_steam})")
-        with col3:
-            st.write("")
+    link_steam = f"https://store.steampowered.com/app/{id_query.fetchone()[0]}/"
+    col1, col2, col3 = st.columns([1, 6, 1])
+    with col1:
+        st.write("")
+    with col2:
+        st.markdown(f"[![image_game]({img.fetchone()[0]})]({link_steam})")
+    with col3:
+        st.write("")
 
-        # st.title(f'{box_1_1}')
-        # Description
-        st.text(descr.fetchone()[0])
+    # Description
+    st.text(descr.fetchone()[0])
 
-    elif box_1_2 == 'Reviews':
-        # Name
-        curs = conn.cursor()
-        query = f'SELECT total_positive, total_negative FROM Games WHERE Games.name = ?'
-        params = [box_1_1]
-        curs.execute(query, params)
+    curs = conn.cursor()
+    query = f'SELECT total_positive, total_negative FROM Games WHERE Games.name = ?'
+    params = [box_1_1]
+    curs.execute(query, params)
 
-        st.markdown(f"<h1 style='text-align: center;'>{box_1_1}</h1>", unsafe_allow_html=True)
-        fig = px.pie(values=curs.fetchone(), names=['Positive reviews', 'Negative reviews'])
-        fig.update_layout(title_text=f'Reviews for {box_1_1}', title_x=0.5)
-        fig.update_traces(textposition='inside', textinfo='value+percent')
-        st.plotly_chart(fig, use_container_width=True)
+    st.markdown(f"<h3 style='text-align: center;'>Reviews: {box_1_1}</h3>", unsafe_allow_html=True)
+    fig = px.pie(values=curs.fetchone(), names=['Positive reviews', 'Negative reviews'])
+    fig.update_traces(textposition='inside', textinfo='value')
+    st.plotly_chart(fig, use_container_width=True)
 
 # TWO GAMES
 elif box_1 == 'Two games':
@@ -129,10 +125,14 @@ elif box_1 == 'Two games':
         st.markdown(f"<h1 style='text-align: center;'>{box_1_2}</h1>", unsafe_allow_html=True)
         st.markdown(f"<h1 style='text-align: center;'></h1>", unsafe_allow_html=True)
 
-        # Gif here?
-        #col1, col2 = st.columns(2)
-        #col1.markdown("![Foo](https://i.gifer.com/origin/57/570998fe4bf6c8c6827a3cb1c3d23003_w200.gif)")
-        #col2.markdown("![Foo](https://i.gifer.com/4dg6.gif)")
+        col1, col2, col3 = st.columns([1, 4, 1])
+
+        with col1:
+            st.write("")
+        with col2:
+            st.markdown("![Fighters](https://c.tenor.com/J-d_5RAF88cAAAAi/ken-masters.gif)")
+        with col3:
+            st.write("")
 
     elif box_1_3 == 'Price':
         # Price
@@ -151,7 +151,6 @@ elif box_1 == 'Two games':
         # Plot
         st.markdown(f"<h1 style='text-align: center;'>Price: {box_1_1} vs {box_1_2}</h1>", unsafe_allow_html = True)
         fig = px.bar(x=list_name_games, y=[price_query_1.fetchone()[0], price_query_2.fetchone()[0]])
-        #fig.update_layout(title_text=f'Price of {box_1_1} vs {box_1_2}', title_x=0.5)
         fig.update_xaxes(title_text='Games')
         fig.update_yaxes(title_text='Price')
         st.plotly_chart(fig, use_container_width=True)
@@ -177,7 +176,6 @@ elif box_1 == 'Two games':
 
         st.markdown(f"<h1 style='text-align: center;'>Reviews: {box_1_1} vs {box_1_2}</h1>", unsafe_allow_html=True)
         fig = px.bar(x=list_name_games, y=[positive_reviews, negative_reviews])
-        # fig.update_layout(title_text=f'Number of positive reviews of {box_1_1} vs {box_1_2}', title_x=0.5)
         fig.update_xaxes(title_text='Games')
         fig.update_yaxes(title_text='Reviews')
         newnames = {'wide_variable_0': 'Positive reviews', 'wide_variable_1': 'Negative reviews'}
@@ -191,7 +189,8 @@ elif box_1 == 'Two games':
 # Top 10 GAMES
 elif box_1 == 'Top games':
     box_1_1 = st.sidebar.selectbox('Select features',
-                                   (['Developers', 'Price', 'Review score', 'Positive reviews', 'Negative reviews']))
+                                   (['Price', 'Developers', 'Positive reviews', 'Negative reviews',
+                                     'Positive reviews ratio', 'Negative reviews ratio', 'Copies sold', 'Sales revenue']))
     box_color = st.sidebar.selectbox('Select color',
                                    (['Lightskyblue','Midnightblue', 'Red', 'Aquamarine', 'Magenta']))
     color = box_color.lower()
@@ -206,6 +205,9 @@ elif box_1 == 'Top games':
         for developer in developer_query.fetchall():
             list_developer.append(developer[0])
             list_developer_count.append(developer[1])
+
+        list_developer = list_developer[::-1]
+        list_developer_count = list_developer_count[::-1]
 
         st.markdown(f"<h1 style='text-align: center;'>Top 10: {box_1_1}</h1>", unsafe_allow_html=True)
         fig = px.bar(y=list_developer, x=list_developer_count, orientation='h',
@@ -228,23 +230,6 @@ elif box_1 == 'Top games':
                      labels={'x': 'Games', 'y': 'Price'}, color_discrete_sequence=[color], height=600)
         st.plotly_chart(fig, use_container_width=True)
 
-    elif box_1_1 == 'Review score':
-        query = conn.cursor()
-        query.execute('''SELECT name, review_score FROM Games ORDER BY review_score DESC LIMIT 10;''')
-
-        list_nominal = []
-        list_numerical = []
-
-        for entries in query.fetchall():
-            list_nominal.append(entries[0])
-            list_numerical.append(entries[1])
-
-        st.markdown(f"<h1 style='text-align: center;'>Top 10: {box_1_1}</h1>", unsafe_allow_html=True)
-        fig = px.bar(y= list_nominal, x= list_numerical, orientation='h',
-                    labels={'x': box_1_1, 'y': 'Games'}, color_discrete_sequence=[color], height=600)
-
-        st.plotly_chart(fig, use_container_width=True)
-
     elif box_1_1 == 'Positive reviews':
         query = conn.cursor()
         query.execute('''SELECT name, total_positive FROM Games ORDER BY total_positive DESC LIMIT 10;''')
@@ -255,6 +240,9 @@ elif box_1 == 'Top games':
         for entries in query.fetchall():
             list_nominal.append(entries[0])
             list_numerical.append(entries[1])
+
+        list_nominal = list_nominal[::-1]
+        list_numerical = list_numerical[::-1]
 
         st.markdown(f"<h1 style='text-align: center;'>Top 10: {box_1_1}</h1>", unsafe_allow_html=True)
         fig = px.bar(y= list_nominal, x= list_numerical, orientation='h',
@@ -272,6 +260,99 @@ elif box_1 == 'Top games':
         for entries in query.fetchall():
             list_nominal.append(entries[0])
             list_numerical.append(entries[1])
+
+        list_nominal = list_nominal[::-1]
+        list_numerical = list_numerical[::-1]
+
+        st.markdown(f"<h1 style='text-align: center;'>Top 10: {box_1_1}</h1>", unsafe_allow_html=True)
+        fig = px.bar(y= list_nominal, x= list_numerical, orientation='h',
+                    labels={'x': box_1_1, 'y': 'Games'}, color_discrete_sequence=[color], height=600)
+
+        st.plotly_chart(fig, use_container_width=True)
+
+    elif box_1_1 == 'Positive reviews ratio':
+        query = conn.cursor()
+        query.execute('''SELECT name, total_positive/total_negative 
+        FROM Games 
+        GROUP BY name
+        HAVING	total_negative > 0
+        ORDER BY total_positive/total_negative 
+        DESC LIMIT 10;''')
+
+        list_nominal = []
+        list_numerical = []
+
+        for entries in query.fetchall():
+            list_nominal.append(entries[0])
+            list_numerical.append(entries[1])
+
+        list_nominal = list_nominal[::-1]
+        list_numerical = list_numerical[::-1]
+
+        st.markdown(f"<h1 style='text-align: center;'>Top 10: {box_1_1}</h1>", unsafe_allow_html=True)
+        st.markdown(f"<h4 style='text-align: center;'>Number of positive reviews for one negative review</h4>", unsafe_allow_html=True)
+        fig = px.bar(y= list_nominal, x= list_numerical, orientation='h',
+                    labels={'x': box_1_1, 'y': 'Games'}, color_discrete_sequence=[color], height=600)
+        st.plotly_chart(fig, use_container_width=True)
+
+    elif box_1_1 == 'Negative reviews ratio':
+        query = conn.cursor()
+        query.execute('''SELECT name, total_negative/total_positive
+        FROM Games 
+        GROUP BY name
+        HAVING	total_positive > 0
+        ORDER BY total_negative/total_positive
+        DESC LIMIT 10;''')
+
+        list_nominal = []
+        list_numerical = []
+
+        for entries in query.fetchall():
+            list_nominal.append(entries[0])
+            list_numerical.append(entries[1])
+
+        list_nominal = list_nominal[::-1]
+        list_numerical = list_numerical[::-1]
+
+        st.markdown(f"<h1 style='text-align: center;'>Top 10: {box_1_1}</h1>", unsafe_allow_html=True)
+        st.markdown(f"<h4 style='text-align: center;'>Number of negative reviews for one positive review</h4>", unsafe_allow_html=True)
+        fig = px.bar(y= list_nominal, x= list_numerical, orientation='h',
+                    labels={'x': box_1_1, 'y': 'Games'}, color_discrete_sequence=[color], height=600)
+        st.plotly_chart(fig, use_container_width=True)
+
+    elif box_1_1 == 'Copies sold':
+        query = conn.cursor()
+        query.execute('''SELECT name, copies_sold FROM Games ORDER BY copies_sold DESC LIMIT 10;''')
+
+        list_nominal = []
+        list_numerical = []
+
+        for entries in query.fetchall():
+            list_nominal.append(entries[0])
+            list_numerical.append(entries[1])
+
+        list_nominal = list_nominal[::-1]
+        list_numerical = list_numerical[::-1]
+
+        st.markdown(f"<h1 style='text-align: center;'>Top 10: {box_1_1}</h1>", unsafe_allow_html=True)
+        fig = px.bar(y= list_nominal, x= list_numerical, orientation='h',
+                    labels={'x': box_1_1, 'y': 'Games'}, color_discrete_sequence=[color], height=600)
+
+        st.plotly_chart(fig, use_container_width=True)
+
+    elif box_1_1 == 'Sales revenue':
+        query = conn.cursor()
+        query.execute('''SELECT name, copies_sold*price FROM Games ORDER BY copies_sold*price DESC LIMIT 10;''')
+
+        list_nominal = []
+        list_numerical = []
+
+        for entries in query.fetchall():
+            list_nominal.append(entries[0])
+            list_numerical.append(entries[1])
+
+        list_nominal = list_nominal[::-1]
+        list_numerical = list_numerical[::-1]
 
         st.markdown(f"<h1 style='text-align: center;'>Top 10: {box_1_1}</h1>", unsafe_allow_html=True)
         fig = px.bar(y= list_nominal, x= list_numerical, orientation='h',
@@ -298,9 +379,9 @@ elif box_1 == 'Time':
         for publish_tuple in curs.fetchall():
             game_count.append(publish_tuple[0])
 
-        st.markdown(f"<h1 style='text-align: center;'>Released games per month</h1>", unsafe_allow_html=True)
+        st.markdown(f"<h1 style='text-align: center;'>Game releases per month</h1>", unsafe_allow_html=True)
         fig = px.bar(x=release_month, y=game_count, labels={'x': 'Month', 'y': 'Game count'},
-                     color_discrete_sequence=[color], height=400)
+                     color_discrete_sequence=[color], height=500)
         average = np.mean(game_count)
         fig.add_hline(y=average, line_dash="dot",
                       annotation_text="Average",
@@ -308,4 +389,63 @@ elif box_1 == 'Time':
                       line_color="red")
         st.plotly_chart(fig, use_container_width=True)
 
+    elif box_1_1 == 'Daily':
+
+        st.markdown(f"<h1 style='text-align: center;'>Game releases over time</h1>", unsafe_allow_html=True)
+        #col1, col2 = st.columns(2)
+        #start_date = col1.date_input('Start date')
+        #end_date = col2.date_input('End date')
+
+        days_df = pd.read_csv('data_files/all_days.csv')
+        days = days_df['0'].tolist()
+
+        # get list of dates on which games were released + release count for that day
+        command = f''' 
+            SELECT date, count(date) 
+            FROM Games
+            GROUP BY date
+            ORDER BY date
+        '''
+        curs.execute(command)
+        release_dates = []
+        game_count = []
+        for a_tuple in curs.fetchall():
+            release_dates.append(a_tuple[0])
+            game_count.append(a_tuple[1])
+
+        # create empty list with zeros to create dataframe with all the dates
+        zeros = np.zeros(len(days))
+        days_df = pd.DataFrame({'days': days, 'release_count': zeros})
+        # create dataframe with dates with actual releases and release count per day
+        release_date_count_df = pd.DataFrame({'days': release_dates, 'release_count': game_count})
+
+        # convert object to datetime64
+        release_date_count_df.days = release_date_count_df.days.astype('datetime64')
+        days_df.days = days_df.days.astype('datetime64')
+
+        # merge dfs on same dates, keep all the days (left)
+        count_games_day_df = pd.merge(days_df, release_date_count_df, on='days', how='left')
+
+        # clean up df
+        count_games_day_df.drop('release_count_x', axis=1, inplace=True)
+        count_games_day_df.rename(columns={'release_count_y': 'release_count'}, inplace=True)
+        count_games_day_df.release_count = count_games_day_df.release_count.fillna(0)
+
+        fig = px.line(count_games_day_df, x='days', y='release_count', height=600)
+        fig.update_traces(line_color=color)
+        fig.update_xaxes(rangeslider_visible=True)
+        fig.update_xaxes(title_text='Time')
+        fig.update_yaxes(title_text='Game count')
+        st.plotly_chart(fig, use_container_width=True)
+
 conn.close()
+
+# Cleans Streamlit layout
+hide_st_style = """
+            <style>
+            footer {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_st_style, unsafe_allow_html=True)
+
+
