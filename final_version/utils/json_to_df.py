@@ -95,7 +95,7 @@ def dealing_with_currencies(unformatted_price: str) -> float:
         unrounded_price = float(price_str) * 1.17
         price += round(unrounded_price,2)
     elif unformatted_price[0] == "₩":
-        price_str = price_formatted[1:].replace(',', '.').replace('--', '00')
+        price_str = price_formatted[1:].replace(',', '').replace('--', '00')
         unrounded_price = float(price_str) * 0.00073
         price += round(unrounded_price,2)
     elif unformatted_price[-2:] == "zł":
