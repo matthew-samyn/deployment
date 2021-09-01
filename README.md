@@ -28,6 +28,9 @@ The file contained webshop data on 3000+ games.
 ### Making container images
 * <a href="https://www.docker.com/" target="_blank">Docker</a>
 
+### Our Docker image
+We pushed our [Docker image](https://hub.docker.com/repository/docker/maartenvdbulcke/steam-final) to Docker Hub
+
 # Usage
 ### Main folder
 | Folder            | Description                                                 |
@@ -47,9 +50,6 @@ The file contained webshop data on 3000+ games.
 | ** json_to_df.py      | Code used to convert the .json file to a Pandas dataframe. |
 | app.py                | Code used for deployment on a website                      |
 
-# ERD of our SQLITE-database 
-![](images/ERD.png)
-
 # Project evolution
 | Version #     | Website                                               |
 |---------------|-------------------------------------------------------|
@@ -58,13 +58,22 @@ The file contained webshop data on 3000+ games.
 | Version 3     | https://steaming-on.herokuapp.com/                    |
 | Final version | https://steam-deployment-project-final.herokuapp.com/ |
 
+# Sample of our app
+![](images/steam_app_gif.gif)
+
+# ERD of our SQLITE-database 
+![](images/ERD.png)
+
+# t-SNE plot of our data 
+![](old_versions/dockerfiles_v2/visuals/tsne_100.png)
+
 # Contributors
-| Name                   | Github                             |
-|------------------------|------------------------------------|
-| Matthew Samyn          | https://github.com/matthew-samyn   |
-| Logan Vendrix          | https://github.com/lvendrix        |
-| Maarten Van den Bulcke | https://github.com/MaartenVdBulcke |
-| Amaury van Kesteren    | https://github.com/andresmc1995    |
+| Name                   | Github                              |
+|------------------------|-------------------------------------|
+| Matthew Samyn          | https://github.com/matthew-samyn    |
+| Logan Vendrix          | https://github.com/lvendrix         |
+| Maarten Van den Bulcke | https://github.com/MaartenVdBulcke  |
+| Amaury van Kesteren    | https://github.com/AmauryvanKeste   |
 
 
 
