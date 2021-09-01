@@ -361,8 +361,7 @@ elif box_1 == 'Top games':
         st.plotly_chart(fig, use_container_width=True)
 
 elif box_1 == 'OS':
-    st.markdown(f"<h1 style='text-align: center;'>Available OS per game</h1>", unsafe_allow_html=True)
-    st.markdown(f"<h1 style='text-align: center;'></h1>", unsafe_allow_html=True)
+    st.markdown(f"<h1 style='text-align: center;'>OS distribution</h1>", unsafe_allow_html=True)
 
     query = conn.cursor()
     query.execute('''SELECT game_id, count(game_id) FROM games_platforms GROUP BY platform_id ORDER BY count(game_id);''')
