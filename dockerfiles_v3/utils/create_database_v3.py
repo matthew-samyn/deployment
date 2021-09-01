@@ -87,6 +87,14 @@ command = 'CREATE TABLE GAMES_PLATFORMS( ' \
 curs.execute(command)
 df_game_platforms.to_sql('GAMES_PLATFORMS', conn, if_exists='append', index=False)
 
+# Adding Kitty Tactics
+df_kitty_tactics_games = pd.read_csv("../data_files/kitty tactics GAMES.txt", sep=";")
+df_kitty_tactics_games_genres = pd.read_csv("../data_files/kitty tactics GAMES_GENRES.txt")
+df_kitty_tactics_games_platforms = pd.read_csv("../data_files/kitty tactics GAMES_PLATFORMS.txt")
+df_kitty_tactics_games.to_sql('GAMES', conn, if_exists='append', index=False)
+df_kitty_tactics_games_genres.to_sql('GAMES_GENRES', conn, if_exists='append', index=False)
+df_kitty_tactics_games_platforms.to_sql('GAMES_PLATFORMS', conn, if_exists='append', index=False)
+
 # try database query
 # curs.execute('''
 # SELECT GAMES.name, GAMES_GENRES.genre_id, GENRES.genre, GAMES.review_score
