@@ -5,7 +5,7 @@ import random
 from PIL import Image
 import numpy as np
 
-conn = sqlite3.connect('database/steam_data_v3.db')
+conn = sqlite3.connect('database/steam_data_v4.db')
 curs = conn.cursor()
 
 # All Game Names

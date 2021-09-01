@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 import random
 from PIL import Image
 
-conn = sqlite3.connect('database/steam_data_v3.db')
+conn = sqlite3.connect('./database/steam_data_v3.db')
 curs = conn.cursor()
 
 # All Game Names
