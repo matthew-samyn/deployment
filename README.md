@@ -50,6 +50,9 @@ The file contained webshop data on 3000+ games.
 # ERD of our SQLITE-database 
 ![](images/ERD.png)
 
+# t-SNE plot of our data 
+![](old_versions/dockerfiles_v2/visuals/tsne_100.png)
+
 # Project evolution
 | Version #     | Website                                               |
 |---------------|-------------------------------------------------------|
