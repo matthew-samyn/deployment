@@ -2,7 +2,7 @@ import json
 import pandas as pd
 import sqlite3
 
-data = open("../../data_json/database.json")
+data = open("../../../data_json/database.json")
 
 steam_games = json.load(data)
 

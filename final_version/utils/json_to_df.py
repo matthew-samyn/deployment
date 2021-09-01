@@ -202,6 +202,6 @@ df_easy.drop(["year"], inplace=True, axis=1)
 # Writing dataframes to csv
 df_games_genre.to_csv("../data_files/gamesid_genreid.csv", index=False)
 df_genre.to_csv("../data_files/different_genres.csv", index=False)
-df_easy.to_csv("../data_files/steam_games_v3.csv", index=False)
+df_easy.to_csv("../data_files/steam_games_final.csv", index=False)
 game_platforms.to_csv('../data_files/game_platforms.csv', index=False)
 platforms_table.to_csv('../data_files/platforms_table.csv', index=False)
