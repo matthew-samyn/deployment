@@ -11,6 +11,8 @@ The file contained webshop data on 3000+ games.
 3. Make visualizations on the data
 4. Build a website with nice visuals.
 
+# Project Management
+Trello <a href="https://trello.com/b/y5ZVIJ2L/deployment" target="_blank">link</a> 
 # Installation
 ### Python version
 * Python 3.9
@@ -65,12 +67,12 @@ We pushed our [Docker image](https://hub.docker.com/repository/docker/maartenvdb
 | Final version | https://steam-deployment-project-final.herokuapp.com/ |
 
 # Contributors
-| Name                   | Github                             |
-|------------------------|------------------------------------|
-| Matthew Samyn          | https://github.com/matthew-samyn   |
-| Logan Vendrix          | https://github.com/lvendrix        |
-| Maarten Van den Bulcke | https://github.com/MaartenVdBulcke |
-| Amaury van Kesteren    | https://github.com/andresmc1995    |
+| Name                   | Github                              |
+|------------------------|-------------------------------------|
+| Matthew Samyn          | https://github.com/matthew-samyn    |
+| Logan Vendrix          | https://github.com/lvendrix         |
+| Maarten Van den Bulcke | https://github.com/MaartenVdBulcke  |
+| Amaury van Kesteren    | https://github.com/AmauryvanKeste   |
 
 
 
