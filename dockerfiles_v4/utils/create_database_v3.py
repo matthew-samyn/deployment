@@ -3,15 +3,15 @@ import sqlite3
 
 
 df_games = pd.read_csv('../data_files/steam_games_v3.csv')
+df_games['date'] = pd.to_datetime(df_games['date'])
 df_genres = pd.read_csv('../data_files/different_genres.csv')
 df_games_genres_id = pd.read_csv('../data_files/gamesid_genreid.csv')
-df_games['date'] = pd.to_datetime(df_games['date'])
 df_platforms_table = pd.read_csv('../data_files/platforms_table.csv')
 df_game_platforms = pd.read_csv('../data_files/game_platforms.csv')
 
 
 # create and connect to database
-conn = sqlite3.connect('../database/steam_data_v3.db')
+conn = sqlite3.connect('../database/steam_data_v4.db')
 curs = conn.cursor()
 
 # create table games
@@ -31,7 +31,8 @@ curs.execute('CREATE TABLE GAMES ('
              'review_score   INTEGER,'
              'total_positive INTEGER,'
              'total_negative INTEGER,'
-             'total_reviews  INTEGER);')
+             'total_reviews  INTEGER,'
+             'copies_sold    INTEGER);')
 
 # df to sql
 df_games.to_sql('GAMES', conn, if_exists='append', index=False)
@@ -86,6 +87,14 @@ command = 'CREATE TABLE GAMES_PLATFORMS( ' \
           ');'
 curs.execute(command)
 df_game_platforms.to_sql('GAMES_PLATFORMS', conn, if_exists='append', index=False)
+
+# Adding Kitty Tactics
+df_kitty_tactics_games = pd.read_csv("../data_files/kitty tactics GAMES.txt", sep=";")
+df_kitty_tactics_games_genres = pd.read_csv("../data_files/kitty tactics GAMES_GENRES.txt")
+df_kitty_tactics_games_platforms = pd.read_csv("../data_files/kitty tactics GAMES_PLATFORMS.txt")
+df_kitty_tactics_games.to_sql('GAMES', conn, if_exists='append', index=False)
+df_kitty_tactics_games_genres.to_sql('GAMES_GENRES', conn, if_exists='append', index=False)
+df_kitty_tactics_games_platforms.to_sql('GAMES_PLATFORMS', conn, if_exists='append', index=False)
 
 # try database query
 # curs.execute('''

@@ -1,0 +1,2 @@
+id;name;header_image;short_description;price;date;required_age;is_free;developers;review_score;total_positive;total_negative;total_reviews;copies_sold
+1473820; Kitty Tactics; https://cdn.akamai.steamstatic.com/steam/apps/1473820/header.jpg?t=1629827939;A cute turn-based tactics game about growing stronger, making friends and conquering foes! Become a cat, expand your territory and reign supreme over your enemies through dynamic tactical combat!;3.29;2021-02-24; 0; 0;Ibe Denaux; 7; 22; 1; 23; 690

@@ -12,7 +12,6 @@ with open("../../data_json/database.json", "r") as json_file:
 
 print(f"We have this many id's: {len(steam_games.keys())}")
 
-
 # Getting easy-to-extract-features in dataframe
 def get_features(key, games):
     ids = list(games.keys())
@@ -23,7 +22,7 @@ def get_features(key, games):
             column.append(value)
         except KeyError:
             column.append(None)
-    print(f"Column '{key}': {len(column)}")
+    # print(f"Column '{key}': {len(column)}")
     return column
 
 
@@ -73,8 +72,6 @@ df_games_genre = pd.DataFrame({"game_id": game_ids, "genre_id": genre_ids})
 #df_genre.to_csv("data_files/different_genres.csv", index=False)
 #df_easy.to_csv("data_files/steam_games_v2.csv", index=False)
 
-
-# Price feature
 # Price feature
 def dealing_with_currencies(unformatted_price: str) -> float:
     price = 0
@@ -131,7 +128,6 @@ for game_id in steam_games:
         game_ids.append(game_id)
         final_formatteds.append(0)
 
-print(game_ids)
 
 # Release date feature
 release_date = []
@@ -143,7 +139,7 @@ df_price_date['date'] = df_price_date['date'].str.replace('Mai','May')
 df_price_date['date'] = df_price_date['date'].str.replace('lutego','January')
 df_price_date['date'] = pd.to_datetime(df_price_date['date'])
 
-# get out the type of platform
+# get out the platform and platform id's
 
 platform_type = []
 game_id_list = []
@@ -159,8 +155,7 @@ for game_id in steam_games:
         platform_boolean.append(list(steam_games[game_id]['platforms'].values())[counter])
         counter += 1
 
-df_easy_v3 = pd.merge(df_easy, df_price_date, on='id')
-print(df_easy_v3)
+df_easy = pd.merge(df_easy, df_price_date, on='id')
 
 platform_dct = {'game_id': game_id_list,
                 'platform_id': platform_type,
@@ -172,24 +167,41 @@ game_platforms = game_platforms[game_platforms.booleans == True]
 game_platforms.reset_index(inplace=True, drop=True)
 game_platforms = game_platforms.drop(columns = ['booleans'])
 
-
-
 platforms_table = pd.DataFrame(
     {'id': [1, 2, 3],
      'name': ['windows', 'mac', 'linux']}
 )
-
 game_platforms['platform_id'] = game_platforms['platform_id'].replace({
     'windows': 1,
     'mac':2,
     'linux':3
 })
 
-# print(game_platforms['platform_id'].value_counts())
+# Adding estimation of sales numbers in df_easy
+df_easy['year'] = pd.DatetimeIndex(df_easy['date']).year
+
+def calculate_sales_for_one_game(series) -> int:
+    copies = 0
+    year = series["year"]
+    total_reviews = series["total_reviews"]
+    if year < 2014:
+        copies += total_reviews * 60
+    elif year >= 2014 and year <= 2016:
+        copies += total_reviews * 50
+    elif year == 2017:
+        copies += total_reviews * 40
+    elif year >= 2018 and year <= 2019:
+        copies += total_reviews * 35
+    elif year >= 2020:
+        copies += total_reviews * 30
+    return round(copies,2)
+
+df_easy["copies_sold"] =  df_easy[["year","total_reviews"]].apply(lambda x: calculate_sales_for_one_game(x), axis=1)
+df_easy.drop(["year"], inplace=True, axis=1)
 
 # Writing dataframes to csv
-# df_games_genre.to_csv("../data_files/gamesid_genreid.csv", index=False)
-# df_genre.to_csv("../data_files/different_genres.csv", index=False)
-df_easy_v3.to_csv("../data_files/steam_games_v3.csv", index=False)
-# game_platforms.to_csv('../data_files/game_platforms.csv', index=False)
-# platforms_table.to_csv('../data_files/platforms_table.csv', index=False)
+df_games_genre.to_csv("../data_files/gamesid_genreid.csv", index=False)
+df_genre.to_csv("../data_files/different_genres.csv", index=False)
+df_easy.to_csv("../data_files/steam_games_v3.csv", index=False)
+game_platforms.to_csv('../data_files/game_platforms.csv', index=False)
+platforms_table.to_csv('../data_files/platforms_table.csv', index=False)
