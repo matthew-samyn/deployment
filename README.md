@@ -51,12 +51,12 @@ The file contained webshop data on 3000+ games.
 ![](images/ERD.png)
 
 # Project evolution
-| Version #     | Website                                        |
-|---------------|------------------------------------------------|
-| Version 1     | https://deploy-island.herokuapp.com/           |
-| Version 2     | https://steam-deployment-project.herokuapp.com |
-| Version 3     | https://steaming-on.herokuapp.com/             |
-| Final version |                                                |
+| Version #     | Website                                               |
+|---------------|-------------------------------------------------------|
+| Version 1     | https://deploy-island.herokuapp.com/                  |
+| Version 2     | https://steam-deployment-project.herokuapp.com        |
+| Version 3     | https://steaming-on.herokuapp.com/                    |
+| Final version | https://steam-deployment-project-final.herokuapp.com/ |
 
 # Contributors
 | Name                   | Github                             |
