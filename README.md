@@ -28,6 +28,9 @@ The file contained webshop data on 3000+ games.
 ### Making container images
 * <a href="https://www.docker.com/" target="_blank">Docker</a>
 
+### Our Docker image
+We pushed our [Docker image](https://hub.docker.com/repository/docker/maartenvdbulcke/steam-deployment) to Docker Hub
+
 # Usage
 ### Main folder
 | Folder            | Description                                                 |
