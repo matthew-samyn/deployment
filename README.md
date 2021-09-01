@@ -11,8 +11,6 @@ The file contained webshop data on 3000+ games.
 3. Make visualizations on the data
 4. Build a website with nice visuals.
 
-# Project Management
-Trello <a href="https://trello.com/b/y5ZVIJ2L/deployment" target="_blank">link</a> 
 # Installation
 ### Python version
 * Python 3.9
